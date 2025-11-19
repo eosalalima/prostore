@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 import { signInDefaultValues } from "@/lib/constants";
-import { Link } from "lucide-react";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { signInWithCrdentials } from "@/lib/actions/user.actions";
@@ -29,7 +29,7 @@ const CredentialsSignInForm = () => {
         );  
     };
 
-    return (<form action={action}>
+    return (<form action={action} method="POST">
         <div className="space-y-6">
             <div>
                 <Label htmlFor="email">Email</Label>
