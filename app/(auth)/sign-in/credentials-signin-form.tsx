@@ -29,7 +29,7 @@ const CredentialsSignInForm = () => {
         );  
     };
 
-    return (<form>
+    return (<form action={action}>
         <div className="space-y-6">
             <div>
                 <Label htmlFor="email">Email</Label>
