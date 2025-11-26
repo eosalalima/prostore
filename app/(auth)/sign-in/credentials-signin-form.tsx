@@ -32,7 +32,7 @@ const CredentialsSignInForm = () => {
     return (<form action={action}>
         <div className="space-y-6">
             <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="mb-2">Email</Label>
                 <Input 
                     id="email"
                     name="email"
@@ -44,7 +44,7 @@ const CredentialsSignInForm = () => {
             </div>
 
             <div>
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="mb-2">Password</Label>
                 <Input 
                     id="password"
                     name="password"
@@ -61,7 +61,7 @@ const CredentialsSignInForm = () => {
 
             { data && !data.success && (
                 <div className="text-center text-destructive">
-                    {data.message}
+                    { data.message }
                 </div>
             ) }
 

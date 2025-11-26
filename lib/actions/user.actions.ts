@@ -2,7 +2,7 @@
 
 import { signInFormSchema } from "../validators";
 import { signIn , signOut } from "@/auth";
-// import { isRedirectError } from "next/navigation";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 // Sign in the user with provided credentials
 export async function signInWithCrdentials(prevState: unknown, formData: FormData) {
@@ -16,15 +16,9 @@ export async function signInWithCrdentials(prevState: unknown, formData: FormDat
 
         return { success: true, message: 'Signed in successfully' };
     } catch (error) {
-        // if (isRedirectError(error)) {
-        //     throw error;
-        // }
-        
-        // Check if it's a Next.js redirect error and re-throw it
-        if (error && typeof error === 'object' && 'digest' in error && 
-            typeof error.digest === 'string' && error.digest.startsWith('NEXT_REDIRECT')) {
+        if (isRedirectError(error)) {
             throw error;
-        }
+        }    
 
         return { success: false, message: (error as Error).message || 'Invalid email or password' };
     }
@@ -36,15 +30,9 @@ export async function signOutUser() {
         await signOut();
         return { success: true, message: 'Signed out successfully' };
     } catch (error) {
-        // if (isRedirectError(error)) {
-        //     throw error;
-        // }
-
-        // Check if it's a Next.js redirect error and re-throw it
-        if (error && typeof error === 'object' && 'digest' in error && 
-            typeof error.digest === 'string' && error.digest.startsWith('NEXT_REDIRECT')) {
+        if (isRedirectError(error)) {
             throw error;
-        }
+        }        
 
         return { success: false, message: (error as Error).message || 'Sign out failed' };
     }
