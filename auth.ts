@@ -7,11 +7,11 @@ import type { NextAuthConfig } from "next-auth";
 
 export const config = {
     pages: {
-        signIn: '/sign-in',        
-        error: '/sign-in',        
-    }, 
+        signIn: "/sign-in",
+        error: "/sign-in",
+    },
     session: {
-        strategy: 'jwt',
+        strategy: "jwt",
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     adapter: PrismaAdapter(prisma),
@@ -19,19 +19,22 @@ export const config = {
         CredentialsProvider({
             credentials: {
                 email: { type: "email" },
-                password: { type: "password" }
-            }, 
+                password: { type: "password" },
+            },
             async authorize(credentials) {
                 if (credentials == null) return null;
 
                 // Find user in database
                 const user = await prisma.user.findUnique({
-                    where: { email: credentials.email as string }
+                    where: { email: credentials.email as string },
                 });
 
                 // Check is user exists and password matches
                 if (user && user.password) {
-                    const isMatch = compareSync(credentials.password as string, user.password);
+                    const isMatch = compareSync(
+                        credentials.password as string,
+                        user.password
+                    );
 
                     // If password is correct, return user
                     if (isMatch) {
@@ -39,31 +42,29 @@ export const config = {
                             id: user.id,
                             email: user.email,
                             name: user.name,
-                            role: user.role
-                        }
-                    }                    
+                            role: user.role,
+                        };
+                    }
                 }
 
                 // Id user does not exist or password does not patch, return null
                 return null;
-            }
-        })
+            },
+        }),
     ],
     callbacks: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         async session({ session, user, trigger, token }: any) {
             // Set the user ID from the token
             session.user.id = token.sub;
 
             // If there is an update, set the user name
-            if (trigger === 'update') {
-                session.user.name = token.name; 
-
+            if (trigger === "update") {
+                session.user.name = token.name;
             }
             return session;
-        }
-    }
+        },
+    },
 } satisfies NextAuthConfig;
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);
-
-
