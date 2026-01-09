@@ -63,8 +63,8 @@ model Account {
   id_token          String?
   session_state     String?
  
-  createdAt DateTime            @default(now())
-  updatedAt DateTime            @updatedAt
+  createdAt         DateTime    @default(now()) @db.Timestamp(6)
+  updatedAt         DateTime    @updatedAt @db.Timestamp(6)
  
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
  
@@ -72,19 +72,19 @@ model Account {
 }
 
 model Session {
-  sessionToken String           @id
-  userId       String           @db.Uuid
-  expires      DateTime         @db.Timestamp(6) 
-  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionToken      String      @id
+  userId            String      @db.Uuid
+  expires           DateTime    @db.Timestamp(6) 
+  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
  
-  createdAt DateTime            @default(now()) @db.Timestamp(6)
-  updatedAt DateTime            @updatedAt @db.Timestamp(6)
+  createdAt         DateTime    @default(now()) @db.Timestamp(6)
+  updatedAt         DateTime    @updatedAt @db.Timestamp(6)
 }
 
 model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
+  identifier        String
+  token             String
+  expires           DateTime    @db.Timestamp(6)    
  
   @@id([identifier, token])
 }
