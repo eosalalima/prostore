@@ -7,10 +7,10 @@ import Link from "next/link";
 import { signInDefaultValues } from "@/lib/constants";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { signInWithCrdentials } from "@/lib/actions/user.actions";
+import { signInWithCredentials } from "@/lib/actions/user.actions";
 
 const CredentialsSignInForm = () => {
-    const [data, action] = useActionState(signInWithCrdentials, {
+    const [data, action] = useActionState(signInWithCredentials, {
         success: false,
         message: '',
     });
